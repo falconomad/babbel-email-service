@@ -16,13 +16,13 @@ const generateEmail = (inputName: string, inputDomain: string) => {
         if (name !== dataSetName) {
           if (splitName.length > 2) {
             //when there is an extra word present other thatn firstname and latsname etc: middlename
-            formatEmail(
+            generatedEmail = formatEmail(
               name,
               [splitName[0], splitName[splitName.length - 1]],
               inputDomain
             );
           } else {
-            formatEmail(name, splitName, inputDomain);
+            generatedEmail = formatEmail(name, splitName, inputDomain);
           }
         }
       }
@@ -37,6 +37,7 @@ const formatEmail = (
   splitInputName: string[],
   inputDomain: string
 ) => {
+  console.log("enetered");
   if (name.includes(".")) {
     // to handle firstname.lastname format
     return `${splitInputName.join(".")}@${inputDomain}`;
