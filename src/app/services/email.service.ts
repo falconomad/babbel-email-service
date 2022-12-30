@@ -37,7 +37,6 @@ const formatEmail = (
   splitInputName: string[],
   inputDomain: string
 ) => {
-  console.log("enetered");
   if (name.includes(".")) {
     // to handle firstname.lastname format
     return `${splitInputName.join(".")}@${inputDomain}`;
