@@ -2,29 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const emails_1 = require("../constants/emails");
 const generateEmail = (inputName, inputDomain) => {
-    let generatedEmail = `${inputName
-        .toLowerCase()
-        .replace(/\s/g, "")}@${inputDomain}`; //default format
+    const splitName = inputName.toLowerCase().split(" ");
+    let generatedEmail = `${splitName[0]}${splitName[splitName.length - 1]}@${inputDomain}`; //default format
     for (const [key, value] of Object.entries(emails_1.validEmails)) {
         const nameDomain = value.split("@");
         const name = nameDomain[0];
         const domain = nameDomain[1];
         if (domain === inputDomain) {
-            const splitName = inputName.toLowerCase().split(" ");
             const dataSetName = key.toLowerCase().replace(/\s/g, "");
             if (splitName.length > 1) {
                 if (name !== dataSetName) {
-                    if (name.includes(".")) {
-                        // to handle firstname.lastname format
-                        generatedEmail = `${inputName
-                            .toLowerCase()
-                            .split(" ")
-                            .join(".")}@${inputDomain}`;
+                    if (splitName.length > 2) {
+                        //when there is an extra word present other thatn firstname and latsname etc: middlename
+                        formatEmail(name, [splitName[0], splitName[splitName.length - 1]], inputDomain);
                     }
                     else {
-                        //to handle firstname[0]lastname format
-                        const splitInputName = inputName.toLowerCase().split(" ");
-                        generatedEmail = `${splitInputName[0].charAt(0) + splitInputName[1]}@${inputDomain}`;
+                        formatEmail(name, splitName, inputDomain);
                     }
                 }
             }
@@ -32,6 +25,16 @@ const generateEmail = (inputName, inputDomain) => {
         }
     }
     return generatedEmail;
+};
+const formatEmail = (name, splitInputName, inputDomain) => {
+    if (name.includes(".")) {
+        // to handle firstname.lastname format
+        return `${splitInputName.join(".")}@${inputDomain}`;
+    }
+    else {
+        //to handle firstname[0]lastname format
+        return `${splitInputName[0].charAt(0) + splitInputName[1]}@${inputDomain}`;
+    }
 };
 exports.default = {
     generateEmail,
