@@ -21,9 +21,14 @@ app.post("/email", (req, res) => {
 });
 function generateEmailFromName(name, domain) {
     const words = name.split(" ");
-    const firstName = words[0];
-    const lastName = words[words.length - 1];
-    return `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;
+    if (words.length === 1) {
+        return `${name.toLowerCase()}@${domain}`;
+    }
+    else {
+        const firstName = words[0];
+        const lastName = words[words.length - 1];
+        return `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`;
+    }
 }
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
